@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta http-equiv="refresh" content="2">
+  <meta http-equiv="refresh" content="3">
   <title>Live trading</title>
   <style>
     body { margin: 0; background: #07090d; color: #8b95a8; font-family: system-ui, sans-serif; display: grid; min-height: 100vh; place-items: center; }
@@ -12,10 +12,25 @@
   </style>
   <script>
   (function () {
-    fetch("url.json?t=" + Date.now(), { cache: "no-store" })
-      .then(function (r) { if (!r.ok) throw new Error("http"); return r.json(); })
-      .then(function (d) { if (d && d.url) location.replace(d.url); })
-      .catch(function () {});
+    var repo = "HefBundie/bots-d049b409e7";
+    var parts = location.pathname.split("/").filter(Boolean);
+    var slug = parts[parts.length - 1] || "";
+    function go(d) { if (d && d.url) location.replace(d.url); }
+    function load(url) {
+      return fetch(url, { cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw new Error("http");
+        return r.json();
+      });
+    }
+    load("https://api.github.com/repos/" + repo + "/commits/main?per_page=1")
+      .then(function (d) {
+        var sha = Array.isArray(d) ? d[0].sha : d.sha;
+        return load("https://raw.githubusercontent.com/" + repo + "/" + sha + "/" + slug + "/url.json?t=" + Date.now());
+      })
+      .then(go)
+      .catch(function () {
+        load("url.json?t=" + Date.now()).then(go).catch(function () {});
+      });
   })();
   </script>
 </head>
