@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="refresh" content="2">
+  <title>Live trading</title>
+  <style>
+    body { margin: 0; background: #07090d; color: #8b95a8; font-family: system-ui, sans-serif; display: grid; min-height: 100vh; place-items: center; }
+    p { font-size: 0.95rem; }
+  </style>
+  <script>
+  (function () {
+    fetch("url.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error("http"); return r.json(); })
+      .then(function (d) { if (d && d.url) location.replace(d.url); })
+      .catch(function () {});
+  })();
+  </script>
+</head>
+<body>
+  <p>Even geduld, je wordt doorgestuurd…</p>
+</body>
+</html>
