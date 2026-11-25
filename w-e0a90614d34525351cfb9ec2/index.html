@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Beste wallets per platform · Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#090a0c; --card:#13161b; --card2:#181c22;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  --text:#f4f5f7; --muted:#8b919c; --faint:#5c6370;
+  --accent:#7dffb3; --accent-dim:rgba(125,255,179,.14);
+  --pos:#3ee89a; --neg:#ff6b7a; --neg-dim:rgba(255,107,122,.12);
+  --paper:#e8c872; --paper-dim:rgba(232,200,114,.14);
+  --warn:#f5b942; --bot:#c9a2ff; --bot-dim:rgba(201,162,255,.14);
+  --shadow:0 20px 50px rgba(0,0,0,.35); --r:22px; --max:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:"Instrument Sans",system-ui,sans-serif;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:
+  radial-gradient(900px 480px at 8% -10%,rgba(125,255,179,.09),transparent 60%),
+  radial-gradient(700px 400px at 110% 8%,rgba(232,200,114,.06),transparent 55%),
+  var(--bg)}
+.wrap{max-width:var(--max);margin:0 auto;padding:48px 28px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-feature-settings:"tnum";letter-spacing:0}
+.kicker{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+.brand{display:flex;gap:16px;align-items:center}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(180deg,var(--card2),#0d0f12);border:1px solid var(--line);display:grid;place-items:center;box-shadow:var(--shadow);flex:none}
+.logo svg{width:22px;height:22px}
+h1{font-size:36px;font-weight:600;letter-spacing:-.04em;line-height:1}
+.sub{margin-top:6px;color:var(--muted);font-size:15px;font-weight:400;max-width:40em}
+.pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:7px 12px;font-size:12px;color:var(--muted);font-weight:500}
+.pill.on{color:var(--accent);background:var(--accent-dim);border-color:rgba(125,255,179,.22)}
+.pill.off{color:var(--neg);background:var(--neg-dim);border-color:rgba(255,107,122,.22)}
+.pill.paper{color:var(--paper);background:var(--paper-dim);border-color:rgba(232,200,114,.28)}
+.pill.bot{color:var(--bot);background:var(--bot-dim);border-color:rgba(201,162,255,.28)}
+.pill.warn{color:var(--warn);background:rgba(245,185,66,.12);border-color:rgba(245,185,66,.28)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px color-mix(in srgb,currentColor 25%,transparent)}
+.stale{display:none;margin:0 0 22px;padding:12px 16px;border-radius:14px;background:rgba(245,185,66,.1);border:1px solid rgba(245,185,66,.28);color:var(--warn);font-size:13px}
+.stale.show{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 20px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+.kpi .lbl{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:10px}
+.kpi .val{font-size:30px;font-weight:600;letter-spacing:-.04em;line-height:1;font-feature-settings:"tnum"}
+.kpi .hint{margin-top:10px;font-size:12px;color:var(--faint)}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+h2.sec{font-size:15px;font-weight:600;letter-spacing:-.02em;margin:0 0 4px}
+.sec-desc{color:var(--muted);font-size:12px;margin:0 0 14px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.nav a,.nav button{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none}
+.nav a:hover,.nav button:hover{text-decoration:none;border-color:var(--line2);color:var(--text)}
+.nav a.on,.nav button.on{color:var(--accent);background:var(--accent-dim);border-color:rgba(125,255,179,.22)}
+.plat{margin-bottom:28px}
+.plat-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.plat-head h2{font-size:22px;font-weight:600;letter-spacing:-.03em}
+.note{color:var(--muted);font-size:13px;max-width:52em;margin-top:4px}
+.fail{padding:18px 20px;border-radius:18px;background:rgba(255,107,122,.07);border:1px solid rgba(255,107,122,.2);color:var(--muted);font-size:14px}
+.fail b{color:var(--neg)}
+.table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 6px 4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:10px 10px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.addr{font-weight:600}
+.reason{color:var(--muted);font-size:12px;max-width:28em}
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:600;letter-spacing:.02em}
+.tag.good{color:var(--pos);background:var(--accent-dim)}
+.tag.bot-sniper{color:var(--bot);background:var(--bot-dim)}
+.tag.losing{color:var(--neg);background:var(--neg-dim)}
+.badge{display:inline-flex;margin-left:6px;padding:2px 7px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--paper);background:var(--paper-dim);border:1px solid rgba(232,200,114,.28);vertical-align:middle}
+.goodgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.gcard .nm{font-size:15px;font-weight:600}
+.gcard .pnl{font-size:24px;font-weight:600;letter-spacing:-.04em;margin:10px 0 6px}
+.gcard .meta{font-size:12px;color:var(--muted);line-height:1.5}
+footer{margin-top:28px;color:var(--faint);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#upd.flash{color:var(--accent)}
+@media (max-width:980px){.kpis,.goodgrid{grid-template-columns:1fr 1fr} h1{font-size:30px}}
+@media (max-width:620px){.kpis,.goodgrid{grid-template-columns:1fr} .wrap{padding:32px 16px 64px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="3.5" y="4.5" width="7" height="15" rx="2" stroke="#7dffb3" stroke-width="1.6"/>
+          <rect x="13.5" y="8.5" width="7" height="11" rx="2" stroke="#e8c872" stroke-width="1.6"/>
+        </svg>
+      </div>
+      <div>
+        <div class="kicker">Wallet-overzicht</div>
+        <h1>Beste wallets per platform</h1>
+        <p class="sub">Publieke ranglijsten, daarna gekeurd met Helius. Alleen paper. Geen echte orders.</p>
+      </div>
+    </div>
+    <div class="pills" id="pills"></div>
+  </header>
+
+  <div class="stale" id="stale">De data loopt achter. Het overzicht ververst automatisch nadat de refresh-job heeft gedraaid.</div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <h2 class="sec">Top ‘goed’ om te kopiëren</h2>
+  <p class="sec-desc">Helius-meting: plus op 30 dagen, winrate 20–90%, mediaan hold langer dan 2 minuten, geen botvolume. Geen garantie voor echte fills.</p>
+  <div class="goodgrid" id="good"></div>
+
+  <h2 class="sec">Al in de copy desk</h2>
+  <p class="sec-desc">Deze vier wallets worden al in PAPER gekopieerd. Ze staan hier ter referentie, ook als ze niet op een ranglijst staan.</p>
+  <div class="table-wrap" style="margin-bottom:28px" id="copied"></div>
+
+  <div class="nav" id="nav"></div>
+  <div id="platforms"></div>
+
+  <footer>
+    <div>Alleen papertrading. Geen echte orders, geen echte fondsen. Broncijfers komen van de genoemde sites; de keuring is Helius (swaps tegen SOL).</div>
+    <div class="mono" id="upd">Laden…</div>
+  </footer>
+</div>
+<script>
+const RAW='https://raw.githubusercontent.com/HefBundie/bots-d049b409e7/data/w-e0a90614d34525351cfb9ec2/data.json';
+const TZ='Europe/Amsterdam';
+let SHA=null, shaAt=0, lastData=null, filter='all';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+function nf(v,d=2){if(v==null||Number.isNaN(+v))return '–';return (+v).toLocaleString('nl-NL',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function signed(v,d=2){if(v==null||Number.isNaN(+v))return '–';const n=+v;return (n>0?'+':'')+nf(n,d)}
+function cls(v){return v==null?'':(v>=0?'pos':'neg')}
+function when(ts){
+  if(!ts) return '–';
+  return new Date(ts*1000).toLocaleString('nl-NL',{timeZone:TZ,day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+}
+function hold(m){
+  if(m==null) return '–';
+  m=+m;
+  if(m<1) return Math.round(m*60)+'s';
+  if(m<60) return nf(m,1)+' min';
+  const h=Math.floor(m/60), mm=Math.round(m%60);
+  return mm?`${h}u ${mm}m`:`${h}u`;
+}
+const VLABEL={good:'Goed', 'bot-sniper':'Bot / sniper', losing:'Verlies'};
+
+async function sha(){
+  if(Date.now()-shaAt<62000) return SHA;
+  shaAt=Date.now();
+  try{
+    const r=await fetch('https://api.github.com/repos/HefBundie/bots-d049b409e7/commits/data',{cache:'no-store'});
+    if(r.ok) SHA=(await r.json()).sha;
+  }catch(e){}
+  return SHA;
+}
+async function get(){
+  try{
+    const s=await sha();
+    if(s){const r=await fetch(RAW.replace('/data/w-','/'+s+'/w-'),{cache:'no-store'});if(r.ok) return r}
+  }catch(e){}
+  try{const r=await fetch(RAW+'?t='+Date.now(),{cache:'no-store'});if(r.ok) return r}catch(e){}
+  return fetch('data.json?t='+Date.now(),{cache:'no-store'});
+}
+
+function pills(d){
+  const ok=d.counts?.platforms_ok??0, fail=d.counts?.platforms_fail??0;
+  $('pills').innerHTML = `
+    <span class="pill paper">PAPER</span>
+    <span class="pill on"><span class="dot"></span>${ok} bronnen bereikbaar</span>
+    ${fail?`<span class="pill off">${fail} niet bruikbaar</span>`:''}
+    <span class="pill">Helius ${nf(d.credits_used||0,0)} / ${nf(d.credits_cap||0,0)} credits</span>`;
+}
+function kpis(d){
+  const c=d.counts||{};
+  $('kpis').innerHTML = [
+    ['Goed om te kopiëren', c.good??0, 'Voldoet aan de Helius-regels'],
+    ['Bot / sniper', c.bot_sniper??0, 'Te snel of te kort vastgehouden'],
+    ['Verlies of ongeschikt', c.losing??0, 'Negatieve of te dunne steekproef'],
+    ['Wallets op de lijst', c.wallets??0, 'Unieke rijen per bron, met overlap'],
+  ].map(([l,v,h])=>`<div class="card kpi"><div class="lbl">${esc(l)}</div><div class="val mono">${nf(v,0)}</div><div class="hint">${esc(h)}</div></div>`).join('');
+}
+function verdictCell(h){
+  const v=h?.verdict||'losing';
+  return `<span class="tag ${esc(v)}">${esc(VLABEL[v]||v)}</span>`;
+}
+function copiedBadge(w){
+  return w.copied?`<span class="badge">Copy ${esc(w.copied.replace('copy',''))}</span>`:'';
+}
+function walletCell(w){
+  return `<div class="addr mono"><a href="${esc(w.solscan)}" target="_blank" rel="noopener">${esc(w.short||w.wallet)}</a>${copiedBadge(w)}</div>
+    ${w.source_name?`<div class="reason">${esc(w.source_name)}</div>`:''}`;
+}
+function heliusCells(h){
+  h=h||{};
+  const note=h.truncated_30d&&h.span_days!=null?` <span class="reason">(${esc(nf(h.span_days,1))}d)</span>`:'';
+  return `<td class="r mono ${cls(h.pnl_sol)}">${signed(h.pnl_sol,2)}</td>
+    <td class="r mono">${h.winrate==null?'–':nf(h.winrate,1)+'%'}</td>
+    <td class="r mono">${hold(h.median_hold_min)}</td>
+    <td class="r mono">${h.trades_per_day==null?'–':nf(h.trades_per_day,1)}</td>
+    <td>${verdictCell(h)}${note}<div class="reason">${esc(h.reason||'')}</div></td>`;
+}
+function table(rows){
+  if(!rows.length) return '<div class="fail">Geen wallets in deze weergave.</div>';
+  return `<div class="table-wrap"><table>
+    <thead><tr>
+      <th>#</th><th>Wallet</th><th class="r">Bron-rang</th>
+      <th class="r">Helius 30d PnL</th><th class="r">Winrate</th>
+      <th class="r">Hold</th><th class="r">Trades/dag</th><th>Oordeel</th>
+    </tr></thead>
+    <tbody>${rows.map((w,i)=>`<tr>
+      <td class="mono">${w.rank??(i+1)}</td>
+      <td>${walletCell(w)}</td>
+      <td class="r mono">${w.rank??'–'}</td>
+      ${heliusCells(w.helius)}
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+function goodCards(list){
+  if(!list.length){
+    $('good').innerHTML='<div class="fail" style="grid-column:1/-1">In deze run voldeed geen extra wallet aan alle copy-regels, of ze staan alleen bij de copy desk.</div>';
+    return;
+  }
+  $('good').innerHTML=list.slice(0,5).map(w=>{
+    const h=w.helius||{};
+    return `<div class="gcard">
+      <div class="nm mono"><a href="${esc(w.solscan)}" target="_blank" rel="noopener">${esc(w.short)}</a>${copiedBadge(w)}</div>
+      <div class="pnl mono ${cls(h.pnl_sol)}">${signed(h.pnl_sol,2)} <span style="font-size:12px;color:var(--muted)">SOL</span></div>
+      <div class="meta">Winrate ${h.winrate==null?'–':nf(h.winrate,1)+'%'} · hold ${hold(h.median_hold_min)}<br>${h.trades_per_day==null?'–':nf(h.trades_per_day,1)} trades/dag${h.truncated_30d&&h.span_days!=null?' · '+nf(h.span_days,1)+'d steekproef':''}</div>
+    </div>`;
+  }).join('');
+}
+function renderPlatforms(d){
+  const plats=d.platforms||[];
+  $('nav').innerHTML = `<button type="button" data-f="all" class="${filter==='all'?'on':''}">Alles</button>
+    <button type="button" data-f="good" class="${filter==='good'?'on':''}">Goed</button>
+    <button type="button" data-f="bot-sniper" class="${filter==='bot-sniper'?'on':''}">Bot / sniper</button>
+    <button type="button" data-f="losing" class="${filter==='losing'?'on':''}">Verlies</button>` +
+    plats.map(p=>`<a href="#p-${esc(p.id)}">${esc(p.name)}</a>`).join('');
+  $('nav').querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.f; render(lastData)});
+  $('platforms').innerHTML = plats.map(p=>{
+    let body;
+    if(p.status!=='ok'){
+      body=`<div class="fail"><b>${p.status==='stale'?'Verouderd':'Niet bereikbaar'}.</b> ${esc(p.reason||'')}</div>`;
+    }else{
+      const rows=(p.wallets||[]).filter(w=>filter==='all'||w.helius?.verdict===filter);
+      body=table(rows);
+    }
+    const src=p.source_url?` · <a href="${esc(p.source_url)}" target="_blank" rel="noopener">bron</a>`:'';
+    const st=p.status==='ok'?'on':(p.status==='stale'?'warn':'off');
+    const sl=p.status==='ok'?'Bereikbaar':(p.status==='stale'?'Verouderd':'Niet bereikbaar');
+    return `<section class="plat" id="p-${esc(p.id)}">
+      <div class="plat-head">
+        <div>
+          <h2>${esc(p.name)}</h2>
+          <p class="note">${esc(p.note||'')}${src}</p>
+        </div>
+        <span class="pill ${st}">${esc(sl)}</span>
+      </div>
+      ${body}
+    </section>`;
+  }).join('');
+}
+function render(d){
+  lastData=d;
+  pills(d); kpis(d); goodCards(d.good||[]);
+  $('copied').innerHTML=table(d.copied||[]);
+  renderPlatforms(d);
+  const label=d.generated||when(d.ts);
+  $('upd').textContent='Laatst bijgewerkt '+label;
+  const age=d.ts?(Date.now()/1000-d.ts):1e9;
+  $('stale').classList.toggle('show', age>36*3600);
+}
+async function tick(){
+  try{
+    const r=await get();
+    if(!r||!r.ok) throw new Error('no data');
+    const d=await r.json();
+    render(d);
+    $('upd').classList.add('flash'); setTimeout(()=>$('upd').classList.remove('flash'), 600);
+  }catch(e){
+    if(!lastData) $('upd').textContent='Data nog niet geladen';
+  }
+}
+tick();
+setInterval(tick, 60000);
+</script>
+</body>
+</html>

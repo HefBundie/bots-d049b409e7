@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Copy desk · Paper dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#090a0c;
+  --card:#13161b;
+  --card2:#181c22;
+  --line:rgba(255,255,255,.07);
+  --line2:rgba(255,255,255,.12);
+  --text:#f4f5f7;
+  --muted:#8b919c;
+  --faint:#5c6370;
+  --accent:#7dffb3;
+  --accent-dim:rgba(125,255,179,.14);
+  --pos:#3ee89a;
+  --neg:#ff6b7a;
+  --neg-dim:rgba(255,107,122,.12);
+  --paper:#e8c872;
+  --paper-dim:rgba(232,200,114,.14);
+  --warn:#f5b942;
+  --shadow:0 20px 50px rgba(0,0,0,.35);
+  --r:22px;
+  --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:"Instrument Sans",system-ui,sans-serif;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:
+  radial-gradient(900px 480px at 8% -10%,rgba(125,255,179,.09),transparent 60%),
+  radial-gradient(700px 400px at 110% 8%,rgba(232,200,114,.06),transparent 55%),
+  var(--bg)}
+.wrap{max-width:var(--max);margin:0 auto;padding:48px 28px 80px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-feature-settings:"tnum";letter-spacing:0}
+.kicker{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.brand{display:flex;gap:16px;align-items:center}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(180deg,var(--card2),#0d0f12);border:1px solid var(--line);display:grid;place-items:center;box-shadow:var(--shadow);flex:none}
+.logo svg{width:22px;height:22px}
+h1{font-size:36px;font-weight:600;letter-spacing:-.04em;line-height:1}
+.sub{margin-top:6px;color:var(--muted);font-size:15px;font-weight:400}
+.pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:7px 12px;font-size:12px;color:var(--muted);font-weight:500}
+.pill.on{color:var(--accent);background:var(--accent-dim);border-color:rgba(125,255,179,.22)}
+.pill.off{color:var(--neg);background:var(--neg-dim);border-color:rgba(255,107,122,.22)}
+.pill.paper{color:var(--paper);background:var(--paper-dim);border-color:rgba(232,200,114,.28)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px color-mix(in srgb,currentColor 25%,transparent)}
+.stale{display:none;margin:0 0 22px;padding:12px 16px;border-radius:14px;background:rgba(245,185,66,.1);border:1px solid rgba(245,185,66,.28);color:var(--warn);font-size:13px}
+.stale.show{display:block}
+h2.sec{font-size:15px;font-weight:600;letter-spacing:-.02em;margin:0 0 4px}
+.sec-desc{color:var(--muted);font-size:12px;margin:0 0 14px}
+.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.bcard{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;cursor:pointer;color:inherit;width:100%;font:inherit;transition:border-color .15s, box-shadow .15s}
+.bcard:hover{border-color:var(--line2)}
+.bcard.sel{border-color:rgba(125,255,179,.45);box-shadow:0 0 0 1px rgba(125,255,179,.2), var(--shadow)}
+.bcard .name{font-size:16px;font-weight:600;letter-spacing:-.02em}
+.bcard .bal{font-size:26px;font-weight:600;letter-spacing:-.04em;margin:10px 0 4px}
+.bcard .row{font-size:12px;color:var(--muted);margin-top:4px}
+.bcard .size{margin-top:10px;font-size:12px;color:var(--paper)}
+.wallet{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:20px 24px;border-radius:var(--r);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);margin-bottom:22px}
+.wallet .meta .kicker{margin-bottom:8px}
+.addr{font-size:15px;color:var(--text);word-break:break-all}
+.wallet a.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--line2);background:var(--card2);color:var(--text);font-size:13px;font-weight:500;white-space:nowrap}
+.wallet a.btn:hover{text-decoration:none;border-color:rgba(125,255,179,.35);color:var(--accent)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.tabs button{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.tabs button.on{color:var(--accent);background:var(--accent-dim);border-color:rgba(125,255,179,.22)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 20px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+.kpi .lbl{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:10px}
+.kpi .val{font-size:30px;font-weight:600;letter-spacing:-.04em;line-height:1;font-feature-settings:"tnum"}
+.kpi .hint{margin-top:10px;font-size:12px;color:var(--faint)}
+.pos{color:var(--pos)}
+.neg{color:var(--neg)}
+.grid2{display:grid;grid-template-columns:1.3fr .9fr;gap:14px;margin-bottom:22px}
+.card h2{font-size:15px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px}
+.card .desc{color:var(--muted);font-size:12px;margin-bottom:16px}
+.chart{height:260px;position:relative}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:#0e1014;border:1px solid var(--line2);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--text);white-space:nowrap;opacity:0;transform:translate(-50%,-120%);box-shadow:var(--shadow);z-index:5}
+.tip.on{opacity:1}
+.empty{padding:28px 8px;text-align:center;color:var(--muted);font-size:14px}
+.table-wrap{overflow-x:auto;margin:-4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:0 10px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.sym{font-weight:600}
+.mint{color:var(--faint);font-size:11px;margin-top:2px}
+.reason{color:var(--muted);font-size:12px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.trade-list{display:flex;flex-direction:column;gap:8px}
+.trow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid var(--line)}
+.trow .sym{font-size:14px}
+.trow .when{color:var(--faint);font-size:11px;margin-top:3px}
+.settings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.set{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid var(--line)}
+.set b{display:block;font-size:16px;font-weight:600;letter-spacing:-.02em;margin-top:4px;font-feature-settings:"tnum"}
+.set span{font-size:11px;color:var(--muted);letter-spacing:.04em}
+footer{margin-top:28px;color:var(--faint);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#upd.flash{color:var(--accent)}
+@media (max-width:900px){
+  .kpis,.grid2,.split,.settings,.compare{grid-template-columns:1fr 1fr}
+  h1{font-size:30px}
+  .kpi .val{font-size:26px}
+  .wrap{padding:32px 18px 64px}
+}
+@media (max-width:620px){
+  .kpis,.grid2,.split,.settings,.compare{grid-template-columns:1fr}
+  .wallet{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="9.5" cy="12" r="6.2" stroke="#7dffb3" stroke-width="1.6"/>
+          <circle cx="14.5" cy="12" r="6.2" stroke="#e8c872" stroke-width="1.6" opacity=".9"/>
+        </svg>
+      </div>
+      <div>
+        <div class="kicker">Copy trading</div>
+        <h1>Copy desk</h1>
+        <p class="sub">Paper-dashboard voor vier gevolgde wallets. Geen echt geld.</p>
+      </div>
+    </div>
+    <div class="pills" id="pills"></div>
+  </header>
+
+  <div class="stale" id="stale">De data loopt achter. Het dashboard ververst automatisch.</div>
+
+  <h2 class="sec">Vergelijking</h2>
+  <p class="sec-desc">Saldo, PnL, winrate, trades en huidige inzet (8% van het actuele paper-saldo)</p>
+  <div class="compare" id="compare"></div>
+
+  <div class="tabs" id="tabs"></div>
+  <div id="detail"></div>
+
+  <footer>
+    <div>Alleen papertrading. Geen echte orders, geen echte fondsen.</div>
+    <div class="mono" id="upd">Laden…</div>
+  </footer>
+</div>
+<script>
+const RAW='https://raw.githubusercontent.com/HefBundie/bots-d049b409e7/data/c-546d067324cb60bbd04f3eaf/data.json';
+const TZ='Europe/Amsterdam';
+const WALLETS={
+  copy84:'84wFcqDKgo9ZU4DRf6PBzKuwfzN5Aagqrk8H5D1mtdpT',
+  copy9j:'9jJ9qaGSH9yuLPQJZEtXH6wePPDdYbCK8EQ9TFuKnYnt',
+  copyA95:'A95dqZ5GoMtF3swpaJNoxbJnFR2pW3Lv2atsGrRMZhKn',
+  copy6q:'6qPTvzaKu53MdQbzP3MiEL924NWR4RubK3V51RQpfv7Z',
+  copykBu:'kBuVZcHwBZPyoenwdSihbKvfVDxSsMNRMpKZyWgA9bA',
+  copyByT:'ByTnB6FwD6PN2geRy1g2MfrE22ktdtsjBaibbqKhg8Ci',
+  copyFCw:'FCwpRBTAGy5L81fSMQdceHDiUSQV3thwa7vCmqKpNKD9',
+  copy5TU:'5TU3RGYtLY9AMc4qGEg7bzjYJj41ERkbxMnij19PRk45',
+  copyCWB:'CWB5mgZkA74uzNzpRKAVoSUfw85CSVCM64w2oBejenEC',
+  copy88H:'88HXbbjvmxoiaKAz13aG4wUuYNdnhZUYCqmTdQBvPbvZ'
+};
+let SHA=null,shaAt=0,lastSig='',sel=null,lastData=null;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+function nf(v,d=2){if(v==null||Number.isNaN(+v))return '–';return (+v).toLocaleString('nl-NL',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function signed(v,d=2){if(v==null||Number.isNaN(+v))return '–';const n=+v;return (n>0?'+':'')+nf(n,d)}
+function cls(v){return v==null?'':(v>=0?'pos':'neg')}
+function when(ts, withDate=true){
+  if(!ts) return '–';
+  const o={timeZone:TZ,hour:'2-digit',minute:'2-digit'};
+  if(withDate){o.day='numeric';o.month='short'}
+  return new Date(ts*1000).toLocaleString('nl-NL',o);
+}
+function hold(s){
+  if(s==null) return '–';
+  s=Math.max(0,+s);
+  if(s<60) return Math.round(s)+'s';
+  if(s<3600) return Math.round(s/60)+'m';
+  const h=Math.floor(s/3600), m=Math.round((s%3600)/60);
+  if(s<86400) return m?`${h}u ${m}m`:`${h}u`;
+  const d=Math.floor(s/86400), hh=Math.round((s%86400)/3600);
+  return hh?`${d}d ${hh}u`:`${d}d`;
+}
+function reason(r){
+  if(!r) return '–';
+  const p=String(r).match(/^wallet_partial_(\d+)pct$/);
+  if(p) return `Wallet deels verkocht (${p[1]}%)`;
+  if(r==='wallet_sell') return 'Wallet verkocht';
+  if(/max_hold|timeout/.test(r)) return 'Tijdslimiet (72 u)';
+  if(/daily_loss/.test(r)) return 'Daglimiet';
+  return r.replace(/_/g,' ');
+}
+
+async function sha(){
+  if(Date.now()-shaAt<62000) return SHA;
+  shaAt=Date.now();
+  try{
+    const r=await fetch('https://api.github.com/repos/HefBundie/bots-d049b409e7/commits/data',{cache:'no-store'});
+    if(r.ok) SHA=(await r.json()).sha;
+  }catch(e){}
+  return SHA;
+}
+async function get(){
+  try{
+    const s=await sha();
+    if(s){const r=await fetch(RAW.replace('/data/c-','/'+s+'/c-'),{cache:'no-store'});if(r.ok) return r}
+  }catch(e){}
+  try{const r=await fetch(RAW+'?t='+Date.now(),{cache:'no-store'});if(r.ok) return r}catch(e){}
+  return fetch('data.json?t='+Date.now(),{cache:'no-store'});
+}
+
+function botsOf(data){
+  if(Array.isArray(data?.bots)) return data.bots;
+  if(data && data.balance!=null && data.wallet) return [{...data,id:data.id||'copy84',label:data.label||'Copy84'}];
+  return [];
+}
+
+function checkStale(ts){
+  const age=ts? (Date.now()/1000 - ts) : 1e9;
+  $('stale').classList.toggle('show', age>8*60);
+}
+
+function headPills(data, list){
+  const n=list.filter(b=>b.running).length;
+  const ws=list.filter(b=>b.ws&&b.ws.connected).length;
+  $('pills').innerHTML = `
+    <span class="pill paper">PAPER</span>
+    <span class="pill ${n===list.length&&list.length?'on':'off'}"><span class="dot"></span>${n}/${list.length} bots draaien</span>
+    <span class="pill ${ws===list.length&&list.length?'on':''}">${ws} websocket${ws===1?'':'s'} live</span>`;
+}
+
+function compare(list){
+  $('compare').innerHTML = list.map(b=>`
+    <button type="button" class="bcard ${b.id===sel?'sel':''}" data-id="${esc(b.id)}">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div class="name">${esc(b.label||b.id)}</div>
+        <span class="pill ${b.running?'on':'off'}" style="padding:4px 8px;font-size:11px"><span class="dot"></span>${b.running?'Draait':'Uit'}</span>
+      </div>
+      <div class="bal mono">${nf(b.balance,2)} <span style="font-size:13px;font-weight:500;color:var(--muted)">SOL</span></div>
+      <div class="row"><span class="mono ${cls(b.pnl)}">${signed(b.pnl,2)} SOL</span> · winrate ${b.win_rate==null?'–':nf(b.win_rate,1)+'%'}</div>
+      <div class="row">${b.trades||0} trades · ${b.open_n||0} open</div>
+      <div class="size mono">Inzet nu ${nf(b.current_size,2)} SOL (${nf(b.size_pct||8,0)}% van saldo)</div>
+    </button>`).join('');
+  $('compare').querySelectorAll('.bcard').forEach(btn=>{
+    btn.onclick=()=>{sel=btn.dataset.id; render(lastData)};
+  });
+}
+
+function tabBar(list){
+  $('tabs').innerHTML = list.map(b=>`<button type="button" class="${b.id===sel?'on':''}" data-id="${esc(b.id)}">${esc(b.label||b.id)}</button>`).join('');
+  $('tabs').querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{sel=btn.dataset.id; render(lastData)};
+  });
+}
+
+function drawEquity(el, d){
+  const tip=el.querySelector('.tip');
+  const pts=d.equity||[];
+  el.querySelectorAll('svg, .empty').forEach(n=>n.remove());
+  if(pts.length<2){el.insertAdjacentHTML('afterbegin','<div class="empty">Nog te weinig trades voor een curve.</div>');return}
+  const w=el.clientWidth||640, h=el.clientHeight||260;
+  const L=44,R=12,T=16,B=28;
+  const xs=pts.map(p=>+p.t), ys=pts.map(p=>+p.eq);
+  const x0=Math.min(...xs), x1=Math.max(...xs)||x0+1;
+  const yMin=Math.min(d.start??10, ...ys), yMax=Math.max(d.start??10, ...ys);
+  const span=yMax-yMin || 1;
+  const yPad=span*0.12;
+  const y0=yMin-yPad, y1=yMax+yPad;
+  const X=t=> L + (t-x0)/((x1-x0)||1)*(w-L-R);
+  const Y=v=> T + (1-(v-y0)/((y1-y0)||1))*(h-T-B);
+  const line=pts.map((p,i)=>(i?'L':'M')+X(p.t).toFixed(1)+','+Y(p.eq).toFixed(1)).join(' ');
+  const area=line+` L${X(pts.at(-1).t).toFixed(1)},${Y(d.start).toFixed(1)} L${X(pts[0].t).toFixed(1)},${Y(d.start).toFixed(1)} Z`;
+  const ticks=4;
+  let grid='';
+  for(let i=0;i<=ticks;i++){
+    const v=y0+(y1-y0)*i/ticks;
+    const y=Y(v);
+    grid+=`<line x1="${L}" x2="${w-R}" y1="${y}" y2="${y}" stroke="rgba(255,255,255,.06)"/>`;
+    grid+=`<text x="${L-8}" y="${y+3}" text-anchor="end" fill="#5c6370" font-size="10" font-family="IBM Plex Mono,monospace">${nf(v,1)}</text>`;
+  }
+  const base=Y(d.start);
+  el.insertAdjacentHTML('afterbegin', `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="eqfill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#7dffb3" stop-opacity=".28"/>
+        <stop offset="100%" stop-color="#7dffb3" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${grid}
+    <line x1="${L}" x2="${w-R}" y1="${base}" y2="${base}" stroke="rgba(232,200,114,.35)" stroke-dasharray="4 4"/>
+    <path d="${area}" fill="url(#eqfill)"/>
+    <path d="${line}" fill="none" stroke="#7dffb3" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${X(pts.at(-1).t)}" cy="${Y(pts.at(-1).eq)}" r="3.5" fill="#7dffb3"/>
+    <text x="${L}" y="${h-8}" fill="#5c6370" font-size="10">${esc(when(pts[0].t))}</text>
+    <text x="${w-R}" y="${h-8}" text-anchor="end" fill="#5c6370" font-size="10">${esc(when(pts.at(-1).t))}</text>
+    <rect class="eqhit" x="${L}" y="${T}" width="${w-L-R}" height="${h-T-B}" fill="transparent"/>
+  </svg>`);
+  const hit=el.querySelector('.eqhit');
+  hit.addEventListener('mousemove',e=>{
+    const rect=el.getBoundingClientRect();
+    const px=e.clientX-rect.left;
+    const t=x0+((px-L)/((w-L-R)||1))*(x1-x0);
+    let best=pts[0], bd=1e18;
+    for(const p of pts){const dd=Math.abs(p.t-t); if(dd<bd){bd=dd;best=p}}
+    tip.classList.add('on');
+    tip.style.left=X(best.t)+'px';
+    tip.style.top=Y(best.eq)+'px';
+    tip.innerHTML=`<b class="mono">${nf(best.eq,2)} SOL</b><div style="color:var(--muted)">${esc(when(best.t))}</div>`;
+  });
+  hit.addEventListener('mouseleave',()=>tip.classList.remove('on'));
+}
+
+function drawDaily(el, d){
+  const tip=el.querySelector('.tip');
+  const days=d.daily||[];
+  el.querySelectorAll('svg, .empty').forEach(n=>n.remove());
+  if(!days.length){el.insertAdjacentHTML('afterbegin','<div class="empty">Nog geen dagelijkse PnL.</div>');return}
+  const w=el.clientWidth||400, h=el.clientHeight||260;
+  const L=48,R=8,T=16,B=36;
+  const vs=days.map(x=>x.pnl);
+  const yAbs=Math.max(0.1, ...vs.map(Math.abs))*1.18;
+  const y0=-yAbs, y1=yAbs;
+  const X=i=> L + (i+0.12)/(days.length)*(w-L-R);
+  const bw=Math.max(2, (w-L-R)/days.length*0.72);
+  const Y=v=> T + (1-(v-y0)/((y1-y0)||1))*(h-T-B);
+  const mid=Y(0);
+  let grid='', bars='';
+  for(const v of [-yAbs,0,yAbs]){
+    grid+=`<line x1="${L}" x2="${w-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,.06)"/>`;
+    grid+=`<text x="${L-8}" y="${Y(v)+3}" text-anchor="end" fill="#5c6370" font-size="10" font-family="IBM Plex Mono,monospace">${signed(v,1)}</text>`;
+  }
+  days.forEach((day,i)=>{
+    const x=X(i);
+    const y=Y(day.pnl);
+    const top=Math.min(y,mid), height=Math.max(1.5, Math.abs(mid-y));
+    const col=day.pnl>=0?'#3ee89a':'#ff6b7a';
+    bars+=`<rect data-i="${i}" x="${x}" y="${top}" width="${bw}" height="${height}" rx="3" fill="${col}" fill-opacity=".88"/>`;
+  });
+  const labels=days.map((day,i)=>{
+    if(days.length>10 && i%2) return '';
+    const lab=day.d.slice(8)+'-'+day.d.slice(5,7);
+    return `<text x="${X(i)+bw/2}" y="${h-10}" text-anchor="middle" fill="#5c6370" font-size="9" font-family="IBM Plex Mono,monospace">${lab}</text>`;
+  }).join('');
+  el.insertAdjacentHTML('afterbegin', `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">${grid}${bars}${labels}</svg>`);
+  el.querySelectorAll('rect[data-i]').forEach(r=>{
+    r.addEventListener('mousemove',e=>{
+      const i=+r.dataset.i, day=days[i];
+      const rect=el.getBoundingClientRect();
+      tip.classList.add('on');
+      tip.style.left=(e.clientX-rect.left)+'px';
+      tip.style.top=(e.clientY-rect.top)+'px';
+      tip.innerHTML=`<b>${esc(day.d)}</b><div class="mono ${cls(day.pnl)}">${signed(day.pnl,3)} SOL</div><div style="color:var(--muted)">${day.n} trades · ${day.wins} winst</div>`;
+    });
+    r.addEventListener('mouseleave',()=>tip.classList.remove('on'));
+  });
+}
+
+function detail(d){
+  const full=WALLETS[d.id]||'';
+  const solscan=full?`https://solscan.io/account/${full}`:'#';
+  const addr=full||d.wallet||'–';
+  const ws=d.ws||{};
+  const today=(d.daily||[]).slice(-1)[0];
+  const todaySame = today && today.d === new Date().toLocaleDateString('en-CA',{timeZone:TZ});
+  const tHint = todaySame ? `${signed(today.pnl,2)} SOL vandaag · ${today.n} trades` : 'Geen trades vandaag';
+  const s=d.settings||{};
+  $('detail').innerHTML = `
+    <section class="wallet">
+      <div class="meta">
+        <div class="kicker">Gevolgde wallet · ${esc(d.label||d.id)} · PAPER ${d.running?'· draait':''} ${ws.connected?'· websocket live':''}</div>
+        <div class="addr mono">${esc(addr)}</div>
+      </div>
+      ${full?`<a class="btn" href="${solscan}" target="_blank" rel="noopener">Open op Solscan
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>`:''}
+    </section>
+    <section class="kpis">
+      <div class="card kpi"><div class="lbl">Saldo</div><div class="val mono">${nf(d.balance,2)} <span style="font-size:16px;font-weight:500;color:var(--muted)">SOL</span></div><div class="hint">Start ${nf(d.start,2)} SOL</div></div>
+      <div class="card kpi"><div class="lbl">Totaal PnL</div><div class="val mono"><span class="${cls(d.pnl)}">${signed(d.pnl,2)} <span style="font-size:16px;font-weight:500">SOL</span></span></div><div class="hint">${signed(d.pnl_pct,1)}% ten opzichte van start</div></div>
+      <div class="card kpi"><div class="lbl">Winrate</div><div class="val mono">${d.win_rate==null?'–':nf(d.win_rate,1)+'%'}</div><div class="hint">${d.wins||0} winst · ${d.losses||0} verlies</div></div>
+      <div class="card kpi"><div class="lbl">Huidige inzet</div><div class="val mono">${nf(d.current_size,2)} <span style="font-size:16px;font-weight:500;color:var(--muted)">SOL</span></div><div class="hint">${nf(d.size_pct||8,0)}% van het huidige paper-saldo · ${d.trades||0} trades · ${tHint}</div></div>
+    </section>
+    <section class="grid2">
+      <div class="card">
+        <h2>Vermogenscurve</h2>
+        <p class="desc">Paper-saldo in SOL, vanaf de start van ${nf(d.start,2)} SOL</p>
+        <div class="chart" id="eqchart"><div class="tip" id="eqtip"></div></div>
+      </div>
+      <div class="card">
+        <h2>Dagelijkse PnL</h2>
+        <p class="desc">Gerealiseerde winst en verlies per dag (Amsterdam)</p>
+        <div class="chart" id="dailychart"><div class="tip" id="daytip"></div></div>
+      </div>
+    </section>
+    <section class="card" style="margin-bottom:22px">
+      <h2>Open posities</h2>
+      <p class="desc" id="opendesc"></p>
+      <div class="table-wrap" id="openbox"></div>
+    </section>
+    <section class="card" style="margin-bottom:22px">
+      <h2>Recente trades</h2>
+      <p class="desc" id="recentdesc">Laatste gesloten paper-trades · tijden in Europe/Amsterdam</p>
+      <div class="table-wrap" id="recentbox"></div>
+    </section>
+    <section class="split">
+      <div class="card">
+        <h2>Beste trades</h2>
+        <p class="desc">Hoogste winst in SOL</p>
+        <div class="trade-list" id="best"></div>
+      </div>
+      <div class="card">
+        <h2>Slechtste trades</h2>
+        <p class="desc">Grootste verlies in SOL</p>
+        <div class="trade-list" id="worst"></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Copy-instellingen</h2>
+      <p class="desc">Vaste paper-regels van deze bot. Inzet compoundt met het saldo.</p>
+      <div class="settings" id="settings"></div>
+    </section>`;
+
+  const rows=d.open||[];
+  $('opendesc').textContent = rows.length? `${rows.length} open paper-positie${rows.length===1?'':'s'}` : 'Geen open posities';
+  if(!rows.length) $('openbox').innerHTML='<div class="empty">Nu geen open posities.</div>';
+  else $('openbox').innerHTML=`<table><thead><tr><th>Token</th><th class="r">Inzet</th><th class="r">Entry</th><th class="r">Piek</th><th class="r">Geopend</th><th class="r">Leeftijd</th></tr></thead><tbody>${
+    rows.map(p=>`<tr>
+      <td><div class="sym">${esc(p.s)}</div><div class="mint mono">${esc(p.m||'')}</div></td>
+      <td class="r mono">${nf(p.size,3)} SOL</td>
+      <td class="r mono">${p.entry==null?'–':Number(p.entry).toExponential(2)}</td>
+      <td class="r mono ${cls(p.peak)}">${p.peak==null?'–':signed(p.peak,1)+'%'}</td>
+      <td class="r">${esc(when(p.open_ts))}</td>
+      <td class="r mono">${p.age_m==null?'–':(p.age_m>=60?nf(p.age_m/60,1)+'u':Math.round(p.age_m)+'m')}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+
+  const rec=d.recent||[];
+  const n=rec.length, tot=d.trades||n;
+  $('recentdesc').textContent = n?`Laatste ${n} van ${tot} gesloten paper-trades · tijden in Europe/Amsterdam`:'Laatste gesloten paper-trades · tijden in Europe/Amsterdam';
+  if(!rec.length) $('recentbox').innerHTML='<div class="empty">Nog geen gesloten trades. De bot volgt vanaf nu, zonder terug te kijken.</div>';
+  else $('recentbox').innerHTML=`<table><thead><tr>
+    <th>Token</th><th class="r">Entry</th><th class="r">Exit</th><th class="r">Inzet</th><th class="r">PnL %</th><th class="r">PnL SOL</th><th>Reden</th><th class="r">Tijd</th><th class="r">Duur</th>
+  </tr></thead><tbody>${
+    rec.map(t=>`<tr>
+      <td><div class="sym">${esc(t.s)}</div><div class="mint mono">${esc(t.m||'')}</div></td>
+      <td class="r mono">${t.entry==null?'–':Number(t.entry).toExponential(2)}</td>
+      <td class="r mono">${t.exit==null?'–':Number(t.exit).toExponential(2)}</td>
+      <td class="r mono">${nf(t.size,3)}</td>
+      <td class="r mono ${cls(t.pct)}">${signed(t.pct,1)}%</td>
+      <td class="r mono ${cls(t.pnl)}">${signed(t.pnl,3)}</td>
+      <td class="reason">${esc(reason(t.reason))}</td>
+      <td class="r">${esc(when(t.close_ts))}</td>
+      <td class="r mono">${esc(hold(t.hold_s))}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+
+  const list=(id, rows, empty)=>{
+    if(!rows||!rows.length){$(id).innerHTML=`<div class="empty">${empty}</div>`;return}
+    $(id).innerHTML=rows.map(t=>`<div class="trow">
+      <div><div class="sym">${esc(t.s)}</div><div class="when">${esc(when(t.close_ts))} · ${esc(reason(t.reason))}</div></div>
+      <div style="text-align:right"><div class="mono ${cls(t.pnl)}" style="font-weight:600">${signed(t.pnl,3)} SOL</div>
+      <div class="when ${cls(t.pct)}">${signed(t.pct,1)}%</div></div>
+    </div>`).join('');
+  };
+  list('best', d.best, 'Nog geen winnende trades.');
+  list('worst', d.worst, 'Nog geen verliezende trades.');
+
+  const items=[
+    ['Inzet', `${nf(s.position_size_pct||d.size_pct||8,0)}% van het huidige paper-saldo`],
+    ['Huidige inzet', `${nf(d.current_size,2)} SOL`],
+    ['Max. exposure', `${s.max_total_exposure_pct??95}% van het vermogen (kan het saldo niet overschrijden)`],
+    ['Reserve', `${nf(s.reserve_sol,2)} SOL`],
+    ['Min. inzet', `${nf(s.min_size_sol,2)} SOL`],
+    ['Daglimiet verlies', `${nf(s.daily_loss_limit_sol,2)} SOL`],
+    ['Max. houdtijd', `${s.max_hold_hours??'–'} uur`],
+    ['Helius-daglimiet', s.credits_day_cap?`${Number(s.credits_day_cap).toLocaleString('nl-NL')} credits`: '–'],
+    ['Trigger', s.ws_enabled?'Websocket, poll als reserve':'Alleen poll'],
+  ];
+  $('settings').innerHTML=items.map(([k,v])=>`<div class="set"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('');
+
+  drawEquity($('eqchart'), d);
+  drawDaily($('dailychart'), d);
+}
+
+function render(data){
+  const list=botsOf(data);
+  if(!list.length){$('upd').textContent='Geen botdata';return}
+  if(!sel || !list.some(b=>b.id===sel)) sel=list[0].id;
+  const d=list.find(b=>b.id===sel)||list[0];
+  headPills(data, list);
+  compare(list);
+  tabBar(list);
+  detail(d);
+  const lag = d.lag_avg!=null? ` · lag ${nf(d.lag_avg,1)}s` : '';
+  $('upd').textContent = `Bijgewerkt ${data.generated||when(data.ts)} · Europe/Amsterdam${lag}`;
+  checkStale(data.ts);
+}
+
+let resizeT=null;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeT);
+  resizeT=setTimeout(()=>{if(lastData) render(lastData)},120);
+});
+
+async function load(){
+  try{
+    const r=await get();
+    const tx=await r.text();
+    if(tx!==lastSig){
+      lastSig=tx;
+      lastData=JSON.parse(tx);
+      render(lastData);
+      $('upd').classList.add('flash');
+      setTimeout(()=>$('upd').classList.remove('flash'),800);
+    }else checkStale(lastData&&lastData.ts);
+  }catch(e){
+    $('upd').textContent='Offline, opnieuw proberen…';
+  }
+}
+load();
+setInterval(load,15000);
+</script>
+</body>
+</html>
